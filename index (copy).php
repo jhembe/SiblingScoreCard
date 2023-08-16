@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $homeworkScore = $_POST["homeworkScore"];
 
     // Get current scores and number of entries
-    $getScoresQuery = "SELECT punctuality_score, eating_score, homework_score, num_entries, overall_average FROM siblings WHERE id = $siblingId";
+    $getScoresQuery = "SELECT punctuality_score, eating_score, homework_score, num_entries FROM siblings WHERE id = $siblingId";
     $scoresResult = $conn->query($getScoresQuery);
 
     if ($scoresResult->num_rows > 0) {
@@ -36,13 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $currentNumEntries = $scoresData["num_entries"];
         $newNumEntries = $currentNumEntries + 1;
 
-        $previousAverage = $scoresData["overall_average"];
         $newPunctualityScore = ($scoresData["punctuality_score"] * $currentNumEntries + $punctualityScore) / $newNumEntries;
         $newEatingScore = ($scoresData["eating_score"] * $currentNumEntries + $eatingScore) / $newNumEntries;
         $newHomeworkScore = ($scoresData["homework_score"] * $currentNumEntries + $homeworkScore) / $newNumEntries;
 
-        // Update scores, previous average, and number of entries
-        $updateQuery = "UPDATE siblings SET punctuality_score = $newPunctualityScore, eating_score = $newEatingScore, homework_score = $newHomeworkScore, previous_average = $previousAverage, num_entries = $newNumEntries WHERE id = $siblingId";
+        // Update scores and number of entries
+        $updateQuery = "UPDATE siblings SET punctuality_score = $newPunctualityScore, eating_score = $newEatingScore, homework_score = $newHomeworkScore, num_entries = $newNumEntries WHERE id = $siblingId";
         if ($conn->query($updateQuery) === TRUE) {
             echo json_encode(array("message" => "Scores updated successfully."));
         } else {

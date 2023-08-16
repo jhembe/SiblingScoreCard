@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Card</title>
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+
+
+<body>
+
+    <div class="container">
+        <h1>Sibling Scorecards</h1>
+
+
+        <!-- Your existing HTML code -->
+
+        <!-- Add a button to open the modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+            Update Scores
+        </button>
+
+        <!-- Modal for updating scores -->
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Update Scores</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="update-scores-form">
+                            <!-- Same form elements for updating scores as before -->
+                            <label for="sibling">Select Sibling: </label>
+                            <select id="sibling" name="sibling">
+                                <option value="1">Sibling 1</option>
+                                <option value="2">Sibling 2</option>
+                                <option value="3">Sibling 3</option>
+                                <option value="4">Sibling 4</option>
+                            </select>
+                            <br>
+                            <label for="punctuality">Punctuality Score: </label>
+                            <input type="number" id="punctuality" name="punctuality" min="0" max="100" required>
+                            <br>
+                            <label for="eating">Eating Score: </label>
+                            <input type="number" id="eating" name="eating" min="0" max="100" required>
+                            <br>
+                            <label for="homework">Homework Score: </label>
+                            <input type="number" id="homework" name="homework" min="0" max="100" required>
+                            <br>
+                            <button type="submit">Update Scores</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" form="update-scores-form" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Your existing scripts and styles -->
+
+
+        <table id="scorecard-table" class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Sibling Name</th>
+                    <th scope="col">Punctuality</th>
+                    <th scope="col">Eating</th>
+                    <th scope="col">Homework</th>
+                    <th scope="col">Overall Average</th>
+                </tr>
+            </thead>
+            <tbody id="scorecard-body">
+                <!-- Scores will be dynamically added here -->
+
+                <td class="overall-average"></td>
+            </tbody>
+        </table>
+
+
+
+        <!-- <h1>Form Updates</h1>
+
+        <form id="update-scores-form">
+            <label for="sibling">Select Sibling: </label>
+            <select id="sibling" name="sibling">
+                <option value="1">Sibling 1</option>
+                <option value="2">Sibling 2</option>
+                <option value="3">Sibling 3</option>
+                <option value="4">Sibling 4</option>
+            </select>
+            <br>
+            <label for="punctuality">Punctuality Score: </label>
+            <input type="number" id="punctuality" name="punctuality" min="0" max="100" required>
+            <br>
+            <label for="eating">Eating Score: </label>
+            <input type="number" id="eating" name="eating" min="0" max="100" required>
+            <br>
+            <label for="homework">Homework Score: </label>
+            <input type="number" id="homework" name="homework" min="0" max="100" required>
+            <br>
+            <button type="submit">Update Scores</button>
+        </form> -->
+        <canvas id="score-graph"></canvas>
+
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+        function getOverallAverage(sibling) {
+            const totalScores = sibling.punctuality_score + sibling.eating_score + sibling.homework_score;
+            const average = totalScores / 3; // Assuming there are three key indicators
+            return average.toFixed(2); // Display average with two decimal places
+        }
+        $(document).ready(function () {
+            // Fetch and display scorecard data
+            console.log("Document ready: JavaScript executing...");
+
+
+            $.get('index2.php', function (data) {
+                console.log("Received score data from server:", data);
+                const scorecardBody = $('#scorecard-body');
+                const scoreData = JSON.parse(data);
+
+                // scoreData.forEach(sibling => {
+                //     const row = `<tr>
+                //                         <td>${sibling.name}</td>
+                //                         <td>${getScoreCell(sibling.punctuality_score)}</td>
+                //                         <td>${getScoreCell(sibling.eating_score)}</td>
+                //                         <td>${getScoreCell(sibling.homework_score)}</td>
+                //                     </tr>`;
+                //     scorecardBody.append(row);
+                // });
+
+                scoreData.forEach(sibling => {
+                    const row = `<tr>
+                    <td>${sibling.name}</td>
+                    <td>${getScoreCell(sibling.punctuality_score)}</td>
+                    <td>${getScoreCell(sibling.eating_score)}</td>
+                    <td>${getScoreCell(sibling.homework_score)}</td>
+                    <td class="overall-average">${getOverallAverage(sibling)}</td>
+                </tr>`;
+                    scorecardBody.append(row);
+                });
+
+
+
+
+
+                $(document).ready(function () {
+
+                    // Create graph data
+                    const siblings = scoreData.map(sibling => sibling.name);
+                    const punctualityScores = scoreData.map(sibling => sibling.punctuality_score);
+                    const eatingScores = scoreData.map(sibling => sibling.eating_score);
+                    const homeworkScores = scoreData.map(sibling => sibling.homework_score);
+
+                    // Create a bar graph using Chart.js
+                    const ctx = document.getElementById('score-graph').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: siblings,
+                            datasets: [
+                                {
+                                    label: 'Punctuality',
+                                    data: punctualityScores,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                                },
+                                {
+                                    label: 'Eating',
+                                    data: eatingScores,
+                                    backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                                },
+                                {
+                                    label: 'Homework',
+                                    data: homeworkScores,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+
+
+            });
+
+            // ... (Handle form submission and AJAX request as before) ...
+            $('#update-scores-form').submit(function (event) {
+                event.preventDefault();
+                const siblingId = $('#sibling').val();
+                const punctualityScore = $('#punctuality').val();
+                const eatingScore = $('#eating').val();
+                const homeworkScore = $('#homework').val();
+
+                $.post('index.php', { siblingId, punctualityScore, eatingScore, homeworkScore }, function (data) {
+                    const response = JSON.parse(data);
+                    alert(response.message);
+                    location.reload(); // Refresh the page after updating scores
+                });
+
+            });
+
+            // Function to get colored score cell based on the range
+            function getScoreCell(score) {
+                let colorClass = '';
+                if (score >= 80) {
+                    colorClass = 'excellent';
+                } else if (score >= 50) {
+                    colorClass = 'fair';
+                } else {
+                    colorClass = 'poor';
+                }
+                return `<span class="${colorClass}">${score}</span>`;
+            }
+        });
+    </script>
+    <style>
+        .excellent {
+            color: green;
+        }
+
+        .fair {
+            color: orange;
+        }
+
+        .poor {
+            color: red;
+        }
+    </style>
+</body>
+
+</html>

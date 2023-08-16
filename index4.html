@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Score Card</title>
     <link rel="stylesheet" href="bootstrap.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Sibling Scorecards</h1>
@@ -105,36 +107,28 @@
 
                 function getArrowIndicator(current, previous) {
                     if (current > previous) {
+                        console.log(current,previous,"Increase")
                         return '<span class="trend-indicator increase">&#9650;</span>';
                     } else if (current < previous) {
+                        console.log(current,previous,"Decrease")
                         return '<span class="trend-indicator decrease">&#9660;</span>';
                     } else {
+                        console.log(current,previous,"Stagnant")
                         return '<span class="trend-indicator">&#9654;</span>'; // Stagnant indicator
                     }
                 }
 
-                // scoreData.forEach(sibling => {
-                //     const previousOverallAvg = parseFloat(sibling.previous_overall_average); // Use the correct field
-                //     const row = `<tr>
-                //         <td>${sibling.name}</td>
-                //         <td>${getScoreCell(sibling.punctuality_score)}</td>
-                //         <td>${getScoreCell(sibling.eating_score)}</td>
-                //         <td>${getScoreCell(sibling.homework_score)}</td>
-                //         <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), previousOverallAvg)}</td>
-                //     </tr>`;
-                //     scorecardBody.append(row);
-                // });
-
                 scoreData.forEach(sibling => {
-    const row = `<tr>
-        <td>${sibling.name}</td>
-        <td>${getScoreCell(sibling.punctuality_score)}</td>
-        <td>${getScoreCell(sibling.eating_score)}</td>
-        <td>${getScoreCell(sibling.homework_score)}</td>
-        <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
-    </tr>`;
-    scorecardBody.append(row);
-});
+                    const previousOverallAvg = parseFloat(sibling.overall_average); // Assuming overall_average is a string
+                    const row = `<tr>
+                    <td>${sibling.name}</td>
+                    <td>${getScoreCell(sibling.punctuality_score)}</td>
+                    <td>${getScoreCell(sibling.eating_score)}</td>
+                    <td>${getScoreCell(sibling.homework_score)}</td>
+                    <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), previousOverallAvg)}</td>
+                </tr>`;
+                    scorecardBody.append(row);
+                });
 
                 const siblingsDropdown = $('#sibling');
                 scoreData.forEach(sibling => {
@@ -219,11 +213,6 @@
         });
     </script>
     <style>
-        .increase{
-            /* background-color: green; */
-            color: green;
-        }
-
         span.excellent {
             width: 100%;
         }
@@ -242,9 +231,9 @@
             padding: 10px;
             color: white;
             background-color: red;
-            border-radius: .3em;
 
         }
     </style>
 </body>
+
 </html>

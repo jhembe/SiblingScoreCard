@@ -29,7 +29,10 @@
                         <form id="update-scores-form">
                             <label for="sibling">Select Sibling: </label>
                             <select id="sibling" name="sibling">
-                                <!-- Dynamic sibling options will be added here -->
+                                <option value="1">Sibling 1</option>
+                                <option value="2">Sibling 2</option>
+                                <option value="3">Sibling 3</option>
+                                <option value="4">Sibling 4</option>
                             </select>
                             <br>
                             <label for="punctuality">Punctuality Score: </label>
@@ -52,8 +55,9 @@
             </div>
         </div>
 
-        <div class="modal fade" id="addSiblingModal" tabindex="-1" aria-labelledby="addSiblingModalLabel"
-            aria-hidden="true">
+
+        <!-- Modal for adding a new sibling -->
+        <div class="modal fade" id="addSiblingModal" tabindex="-1" aria-labelledby="addSiblingModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -75,7 +79,9 @@
             </div>
         </div>
 
-        <table id="scorecard-table" class="table table-bordered table-hover table-responsive-lg table-striped">
+
+
+        <table id="scorecard-table" class="table">
             <thead>
                 <tr>
                     <th scope="col">Sibling Name</th>
@@ -86,7 +92,6 @@
                 </tr>
             </thead>
             <tbody id="scorecard-body">
-                <!-- Sibling score rows will be dynamically added here -->
             </tbody>
         </table>
 
@@ -98,48 +103,26 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        // function getOverallAverage(sibling) {
+        //     const totalScores = sibling.punctuality_score + sibling.eating_score + sibling.homework_score;
+        //     const average = totalScores / 3;
+        //     return average.toFixed(2);
+        // }
+
         $(document).ready(function () {
             $.get('index2.php', function (data) {
                 const scorecardBody = $('#scorecard-body');
                 const scoreData = JSON.parse(data);
 
-                function getArrowIndicator(current, previous) {
-                    if (current > previous) {
-                        return '<span class="trend-indicator increase">&#9650;</span>';
-                    } else if (current < previous) {
-                        return '<span class="trend-indicator decrease">&#9660;</span>';
-                    } else {
-                        return '<span class="trend-indicator">&#9654;</span>'; // Stagnant indicator
-                    }
-                }
-
-                // scoreData.forEach(sibling => {
-                //     const previousOverallAvg = parseFloat(sibling.previous_overall_average); // Use the correct field
-                //     const row = `<tr>
-                //         <td>${sibling.name}</td>
-                //         <td>${getScoreCell(sibling.punctuality_score)}</td>
-                //         <td>${getScoreCell(sibling.eating_score)}</td>
-                //         <td>${getScoreCell(sibling.homework_score)}</td>
-                //         <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), previousOverallAvg)}</td>
-                //     </tr>`;
-                //     scorecardBody.append(row);
-                // });
-
                 scoreData.forEach(sibling => {
-    const row = `<tr>
-        <td>${sibling.name}</td>
-        <td>${getScoreCell(sibling.punctuality_score)}</td>
-        <td>${getScoreCell(sibling.eating_score)}</td>
-        <td>${getScoreCell(sibling.homework_score)}</td>
-        <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
-    </tr>`;
-    scorecardBody.append(row);
-});
-
-                const siblingsDropdown = $('#sibling');
-                scoreData.forEach(sibling => {
-                    const option = `<option value="${sibling.id}">${sibling.name}</option>`;
-                    siblingsDropdown.append(option);
+                    const row = `<tr>
+                        <td>${sibling.name}</td>
+                        <td>${getScoreCell(sibling.punctuality_score)}</td>
+                        <td>${getScoreCell(sibling.eating_score)}</td>
+                        <td>${getScoreCell(sibling.homework_score)}</td>
+                        <td>${getScoreCell(sibling.overall_average)}</td>
+                    </tr>`;
+                    scorecardBody.append(row);
                 });
 
                 const siblings = scoreData.map(sibling => sibling.name);
@@ -219,30 +202,21 @@
         });
     </script>
     <style>
-        .increase{
-            /* background-color: green; */
-            color: green;
+        td{
+            background-color: red;
         }
-
-        span.excellent {
-            width: 100%;
-        }
-
         .excellent {
             padding: 10px;
             color: white;
             background-color: green;
         }
-
         .fair {
             color: orange;
         }
-
         .poor {
             padding: 10px;
             color: white;
             background-color: red;
-            border-radius: .3em;
 
         }
     </style>
