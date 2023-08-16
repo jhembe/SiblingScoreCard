@@ -1,22 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Score Card</title>
     <link rel="stylesheet" href="bootstrap.css">
 </head>
+
 <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <!-- <img src="score-card-logo.png" alt="Score Card" width="30" height="30" class="d-inline-block align-text-top"> -->
+                Score Card
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
     <div class="container">
-        <h1>Sibling Scorecards</h1>
+        <h2>Sibling Scorecards</h2>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
-            Update Scores
-        </button>
+        <div class="row row-convas">
+            <canvas id="score-graph" class="score-graph"></canvas>
+        </div>
 
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
-            Add Sibling
-        </button>
+        <div class="row row-btn">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                Update Scores
+            </button>
+
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
+                Add Sibling
+            </button>
+        </div>
+
 
         <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -126,15 +159,15 @@
                 // });
 
                 scoreData.forEach(sibling => {
-    const row = `<tr>
+                    const row = `<tr>
         <td>${sibling.name}</td>
         <td>${getScoreCell(sibling.punctuality_score)}</td>
         <td>${getScoreCell(sibling.eating_score)}</td>
         <td>${getScoreCell(sibling.homework_score)}</td>
         <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
     </tr>`;
-    scorecardBody.append(row);
-});
+                    scorecardBody.append(row);
+                });
 
                 const siblingsDropdown = $('#sibling');
                 scoreData.forEach(sibling => {
@@ -171,11 +204,38 @@
                         ]
                     },
                     options: {
+                        responsive: true, // This makes the chart responsive to its container
+                        maintainAspectRatio: true,
+                        aspectRatio: 3,
                         scales: {
                             y: {
                                 beginAtZero: true
                             }
+                        },
+
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        indexAxis: 'x', // Display data vertically
+                        elements: {
+                            bar: {
+                                barPercentage: 0.1, // Adjust the width of individual bars
+                                categoryPercentage: 0.9 // Adjust the space between bars
+                            }
                         }
+
+
+
                     }
                 });
             });
@@ -219,7 +279,13 @@
         });
     </script>
     <style>
-        .increase{
+
+        h2{
+            margin: 20px 0;
+
+        }
+
+        .increase {
             /* background-color: green; */
             color: green;
         }
@@ -245,6 +311,21 @@
             border-radius: .3em;
 
         }
+
+        .row-btn {
+            background-color: red;
+            /* height: 70px; */
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+
+
+        button {
+            margin: 20px;
+        }
     </style>
 </body>
+
 </html>
