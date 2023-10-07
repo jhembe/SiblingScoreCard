@@ -3,6 +3,7 @@
 The Sibling Scorecard System is a web application designed to help you manage and assess the performance of siblings in various aspects. This system allows you to record and track scores for individual siblings in different categories and provides a scoring sheet for easy assessment.
 
 ![Screenshots of the Sibling Scorecard System](./screenshots/dashboard_view.png)
+![Screenshots of the Sibling Scorecard System](./screenshots/scores_one.png)
 
 ## Table of Contents
 
