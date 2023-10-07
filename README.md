@@ -2,7 +2,7 @@
 
 The Sibling Scorecard System is a web application designed to help you manage and assess the performance of siblings in various aspects. This system allows you to record and track scores for individual siblings in different categories and provides a scoring sheet for easy assessment.
 
-![Screenshot of the Sibling Scorecard System](screenshot.png)
+![Screenshot of the Sibling Scorecard System](./screenshots/dashboard.png)
 
 ## Table of Contents
 
@@ -78,10 +78,10 @@ Create a MySQL database and import the database.sql file to set up the database 
 **Use the scoring sheet to assess each sibling's performance in various sections. The system calculates scores based on your inputs.
 Features**
 
-    *Easy management of sibling records and scores.
-    Import data from Excel files for efficient data entry.
-    Score calculation and assessment using a scoring sheet.
-    Modern and user-friendly interface.
+  * Easy management of sibling records and scores.
+  * Import data from Excel files for efficient data entry.
+  * Score calculation and assessment using a scoring sheet.
+  * Modern and user-friendly interface.
 
 ## Database Schema
 
