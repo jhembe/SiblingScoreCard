@@ -248,6 +248,7 @@
                 const homeworkScore = $('#homework').val();
 
                 $.post('index.php', { siblingId, punctualityScore, eatingScore, homeworkScore }, function (data) {
+                    console.log('Received data:', data);
                     const response = JSON.parse(data);
                     alert(response.message);
                     location.reload();

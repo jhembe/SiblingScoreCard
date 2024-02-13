@@ -11,15 +11,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch sibling data
-$query = "SELECT * FROM siblings";
-$result = $conn->query($query);
-
-$siblings = array();
-while ($row = $result->fetch_assoc()) {
-    $siblings[] = $row;
-}
-
 // Handle updating scores for indicators
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $siblingId = $_POST["siblingId"];
@@ -36,13 +27,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $currentNumEntries = $scoresData["num_entries"];
         $newNumEntries = $currentNumEntries + 1;
 
-        $previousAverage = $scoresData["overall_average"];
+        $previousAverage = $currentNumEntries > 0 ? $scoresData["overall_average"] : 0;
         $newPunctualityScore = ($scoresData["punctuality_score"] * $currentNumEntries + $punctualityScore) / $newNumEntries;
         $newEatingScore = ($scoresData["eating_score"] * $currentNumEntries + $eatingScore) / $newNumEntries;
         $newHomeworkScore = ($scoresData["homework_score"] * $currentNumEntries + $homeworkScore) / $newNumEntries;
 
         // Update scores, previous average, and number of entries
-        $updateQuery = "UPDATE siblings SET punctuality_score = $newPunctualityScore, eating_score = $newEatingScore, homework_score = $newHomeworkScore, previous_average = $previousAverage, num_entries = $newNumEntries WHERE id = $siblingId";
+        $updateQuery = "UPDATE siblings SET punctuality_score = $newPunctualityScore, eating_score = $newEatingScore, homework_score = $newHomeworkScore, previous_average = $previousAverage, overall_average = ($punctualityScore + $eatingScore + $homeworkScore) / 3, num_entries = $newNumEntries WHERE id = $siblingId";
+
         if ($conn->query($updateQuery) === TRUE) {
             echo json_encode(array("message" => "Scores updated successfully."));
         } else {
