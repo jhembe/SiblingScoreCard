@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 
 --
 -- Database: `scorecardtest`
-CREATE DATABASE scorecardtest;
-USE scorecardtest;
+CREATE DATABASE scoreCardTest;
+USE scoreCardTest;
 --
 
 -- --------------------------------------------------------

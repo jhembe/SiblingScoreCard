@@ -31,8 +31,7 @@ To run this system, you need the following software/tools installed on your serv
 
 - PHP (7.0 or higher)
 - MySQL database
-- Composer (for PHPExcel and PhpSpreadsheet libraries)
-- Web server (e.g., Apache, Nginx)
+- Web server (e.g., Apache (Recommended), Nginx)
 - Web browser
 
 ### Installation
@@ -42,26 +41,82 @@ To run this system, you need the following software/tools installed on your serv
    Clone this repository to your server:
 
    ```shell
-   git clone https://github.com/yourusername/sibling-scorecard.git
-   
+   git clone https://github.com/yourusername/SiblingScoreCard.git
+
+   ### Or you can ask Philes on how to download it mannualy   
 2. **Database Setup:**
 
-Create a MySQL database and import the database.sql file to set up the database schema.
+   A pre-configured sql file (scorecardtest.sql) is included in the Schema folder, within the downloaded project.
+   Import the file into mysql database to set up the schema, it can be simply done using phpmyadmin. The screenshot bellow will guide you :
+
+   ![Steps 1 : to Import sql file](./screenshots/importLocation.png)
+
+   ![Steps 2 : to Import sql file](./screenshots/importPage.png)
+   After choosing the file, below you have to click the import button.
+
+
+   ![Steps 3 : to Import sql file](./screenshots/finalImport.png)
+   This will appear if everything goes well, and the database will appear on the left pannel
+
+   ### Another alternative could be : 
+
+   ```sql
+   CREATE DATABASE scorecardtest;
+   USE scorecardtest;
+
+   ----------------------------------------
+   --Table structure for table `siblings`--
+   ----------------------------------------
+
+   CREATE TABLE `siblings` (
+   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   `name` varchar(50) NOT NULL,
+   `punctuality_score` int(11) NOT NULL DEFAULT 0,
+   `eating_score` int(11) NOT NULL DEFAULT 0,
+   `homework_score` int(11) NOT NULL DEFAULT 0,
+   `previous_average` int(11) NOT NULL DEFAULT 0,
+   `num_entries` int(11) NOT NULL DEFAULT 0,
+   `overall_average` int(11) NOT NULL DEFAULT 0
+   );
+   ```
+
 
 3. **Install PHP Libraries:**
-   Install the required PHP libraries using Composer:
 
-   ```shell
-   composer install
+   Configure the database connection in config.php with your database credentials. The file can be found within the schema folder.
 
-4. **Configure Database Connection:**
-   Configure the database connection in db_connection.php with your database credentials.
+   ```php
+   $servername = "localhost";
+   $username = "root";
+   $password = "";
+   $dbname = "scoreCardTest";
 
-5. **Server Configuration:**
-   Ensure your server is correctly configured to serve PHP files.
+   $conn = new mysqli($servername, $username, $password, $dbname);
 
-6. **Access the Application:**
+   if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+   }
+   ```
+
+4. **Server Configuration:**
+   Ensure your server is correctly configured to serve PHP files. Meeaning keep the downloaded project folder into the server's readable directory.
+   
+   For xampp users on windows
+   ```cmd
+   C:\xampp\htdocs\
+   ```
+
+   For xampp users on Linux
+   ```
+   /opt/lampp/htdocs/
+   ```
+
+5. **Access the Application:**
    Access the application through your web browser.
+
+   ```url
+   http://localhost/SiblingScoreCard
+   ```
 
 ## Usage
 **The Sibling Scorecard System provides the following main features:**
@@ -87,10 +142,6 @@ Features**
 ## Database Schema
 
 The database schema is designed to be efficient and flexible, allowing easy expansion and customization of the system. The main table is named siblings and contains columns for sibling information and scores.
-Scoring Sheet
-
-The scoring sheet is a crucial part of this system, allowing you to assess siblings' performance in different categories. The scoring sheet is divided into sections, each with its own maximum points and scoring criteria. You can view the overall scores and determine if a sibling is "adolescent-friendly" and "client-friendly" based on the total scores.
-Contributing
 
 ## Contributions
 

@@ -1,27 +1,17 @@
 <?php
-// Connect to the database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "scoreCardTest";
+    require_once '../Schema/config.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+    // Fetch sibling data
+    $query = "SELECT * FROM siblings";
+    $result = $conn->query($query);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    $siblings = array();
+    while ($row = $result->fetch_assoc()) {
+        $siblings[] = $row;
+    }
 
-// Fetch sibling data
-$query = "SELECT * FROM siblings";
-$result = $conn->query($query);
+    // Return fetched sibling data as JSON
+    echo json_encode($siblings);
 
-$siblings = array();
-while ($row = $result->fetch_assoc()) {
-    $siblings[] = $row;
-}
-
-// Return fetched sibling data as JSON
-echo json_encode($siblings);
-
-$conn->close();
+    $conn->close();
 ?>
