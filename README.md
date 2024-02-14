@@ -43,7 +43,8 @@ To run this system, you need the following software/tools installed on your serv
    ```shell
    git clone https://github.com/yourusername/SiblingScoreCard.git
 
-   ### Or you can ask Philes on how to download it mannualy   
+   ### Or you can ask Philes on how to download it mannualy
+   
 2. **Database Setup:**
 
    A pre-configured sql file (scorecardtest.sql) is included in the Schema folder, within the downloaded project.
@@ -54,11 +55,10 @@ To run this system, you need the following software/tools installed on your serv
    ![Steps 2 : to Import sql file](./screenshots/importPage.png)
    After choosing the file, below you have to click the import button.
 
-
    ![Steps 3 : to Import sql file](./screenshots/finalImport.png)
    This will appear if everything goes well, and the database will appear on the left pannel
 
-   ### Another alternative could be : 
+### Another alternative could be
 
    ```sql
    CREATE DATABASE scorecardtest;
@@ -80,7 +80,6 @@ To run this system, you need the following software/tools installed on your serv
    );
    ```
 
-
 3. **Install PHP Libraries:**
 
    Configure the database connection in config.php with your database credentials. The file can be found within the schema folder.
@@ -100,13 +99,15 @@ To run this system, you need the following software/tools installed on your serv
 
 4. **Server Configuration:**
    Ensure your server is correctly configured to serve PHP files. Meeaning keep the downloaded project folder into the server's readable directory.
-   
+
    For xampp users on windows
+
    ```cmd
    C:\xampp\htdocs\
    ```
 
    For xampp users on Linux
+
    ```
    /opt/lampp/htdocs/
    ```
@@ -119,6 +120,7 @@ To run this system, you need the following software/tools installed on your serv
    ```
 
 ## Usage
+
 **The Sibling Scorecard System provides the following main features:**
 
   **Adding a Sibling**
@@ -131,13 +133,14 @@ To run this system, you need the following software/tools installed on your serv
   You can import data from an Excel file to quickly populate sibling information and scores.
 
 ## Using the Scoring Sheet
+
 **Use the scoring sheet to assess each sibling's performance in various sections. The system calculates scores based on your inputs.
 Features**
 
-  * Easy management of sibling records and scores.
-  * Import data from Excel files for efficient data entry.
-  * Score calculation and assessment using a scoring sheet.
-  * Modern and user-friendly interface.
+- Easy management of sibling records and scores.
+- Import data from Excel files for efficient data entry.
+- Score calculation and assessment using a scoring sheet.
+- Modern and user-friendly interface.
 
 ## Database Schema
 
@@ -150,5 +153,3 @@ contributions to this project are welcome! You can contribute by reporting issue
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-

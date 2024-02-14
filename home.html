@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Card</title>
+    <link rel="stylesheet" href="./style/bootstrap.css">
+    <link rel="stylesheet" href="./style/trend.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                Score Card
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container">
+        <h2>Sibling ScoreCards</h2>
+
+        <div class="row row-btn">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                Update Scores
+            </button>
+
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
+                Add Sibling
+            </button>
+        </div>
+
+
+        
+        
+        <table id="scorecard-table" class="table table-bordered table-hover table-responsive-lg table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Sibling Name</th>
+                    <th scope="col">Punctuality</th>
+                    <th scope="col">Eating</th>
+                    <th scope="col">Homework</th>
+                    <th scope="col">Overall Average</th>
+                </tr>
+            </thead>
+            <tbody id="scorecard-body">
+                <!-- Sibling score rows will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <canvas id="score-graph"></canvas>
+    </div>
+
+    <script src="./scripts/jquery.js"></script>
+    <script src="./scripts/bootstrap.bundle.js"></script>
+    <script src="./scripts/bootstrap.js"></script>
+    <script src="./scripts/chart.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+
+</html>

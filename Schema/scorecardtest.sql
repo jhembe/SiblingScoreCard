@@ -29,12 +29,12 @@ USE scoreCardTest;
 -- Table structure for table `siblings`
 --
 
-CREATE TABLE `siblings` (
+CREATE TABLE `doctors` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `punctuality_score` int(11) NOT NULL DEFAULT 0,
-  `eating_score` int(11) NOT NULL DEFAULT 0,
-  `homework_score` int(11) NOT NULL DEFAULT 0,
+  `revenue_score` int(11) NOT NULL DEFAULT 0,
+  `satisfaction_score` int(11) NOT NULL DEFAULT 0,
   `previous_average` int(11) NOT NULL DEFAULT 0,
   `num_entries` int(11) NOT NULL DEFAULT 0,
   `overall_average` int(11) NOT NULL DEFAULT 0
@@ -47,7 +47,7 @@ CREATE TABLE `siblings` (
 --
 -- Indexes for table `siblings`
 --
-ALTER TABLE `siblings`
+ALTER TABLE `doctors`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -57,7 +57,7 @@ ALTER TABLE `siblings`
 --
 -- AUTO_INCREMENT for table `siblings`
 --
-ALTER TABLE `siblings`
+ALTER TABLE `doctors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
