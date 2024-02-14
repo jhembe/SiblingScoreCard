@@ -247,7 +247,7 @@
                 const eatingScore = $('#eating').val();
                 const homeworkScore = $('#homework').val();
 
-                $.post('./crud/fetchData.php', { siblingId, punctualityScore, eatingScore, homeworkScore }, function (data) {
+                $.post('./crud/updateScores.php', { siblingId, punctualityScore, eatingScore, homeworkScore }, function (data) {
                     console.log('Received data:', data);
                     const response = JSON.parse(data);
                     alert(response.message);
