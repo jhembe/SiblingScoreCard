@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Card</title>
+    <link rel="stylesheet" href="./style/bootstrap.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Score Card</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+    <div class="container">
+        <h2>Sibling Scorecards</h2>
+
+        <div class="row row-convas">
+            <canvas id="score-graph" class="score-graph"></canvas>
+        </div>
+
+        <div class="row row-btn">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                Update Scores
+            </button>
+
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
+                Add Sibling
+            </button>
+        </div>
+
+
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Scores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="update-scores-form">
+                    <label for="sibling">Select Sibling: </label>
+                    <select id="sibling" name="sibling">
+                        <!-- Dynamic sibling options will be added here -->
+                    </select>
+                    <br>
+                    <label for="punctuality">Punctuality Score: </label>
+                    <input type="number" id="punctuality" name="punctuality" min="0" max="100" required>
+                    <br>
+                    <label for="eating">Eating Score: </label>
+                    <input type="number" id="eating" name="eating" min="0" max="100" required>
+                    <br>
+                    <label for="homework">Homework Score: </label>
+                    <input type="number" id="homework" name="homework" min="0" max="100" required>
+                    <br>
+                    <button type="submit">Update Scores</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="update-scores-form" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <?php include_once('./html/AddSiblingModal.html'); ?>
+
+        <table id="scorecard-table" class="table table-bordered table-hover table-responsive-lg table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Sibling Name</th>
+                    <th scope="col">Punctuality</th>
+                    <th scope="col">Eating</th>
+                    <th scope="col">Homework</th>
+                    <th scope="col">Overall Average</th>
+                </tr>
+            </thead>
+            <tbody id="scorecard-body">
+                <!-- Sibling score rows will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <canvas id="score-graph"></canvas>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $.get('./crud/fetchData.php', function (data) {
+                const scorecardBody = $('#scorecard-body');
+                const scoreData = JSON.parse(data);
+
+                function getArrowIndicator(current, previous) {
+                    if (current > previous) {
+                        return '<span class="trend-indicator increase">&#9650;</span>';
+                    } else if (current < previous) {
+                        return '<span class="trend-indicator decrease">&#9660;</span>';
+                    } else {
+                        return '<span class="trend-indicator">&#9654;</span>'; // Stagnant indicator
+                    }
+                }
+
+                // scoreData.forEach(sibling => {
+                //     const previousOverallAvg = parseFloat(sibling.previous_overall_average); // Use the correct field
+                //     const row = `<tr>
+                //         <td>${sibling.name}</td>
+                //         <td>${getScoreCell(sibling.punctuality_score)}</td>
+                //         <td>${getScoreCell(sibling.eating_score)}</td>
+                //         <td>${getScoreCell(sibling.homework_score)}</td>
+                //         <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), previousOverallAvg)}</td>
+                //     </tr>`;
+                //     scorecardBody.append(row);
+                // });
+
+                scoreData.forEach(sibling => {
+                    const row = `<tr>
+        <td>${sibling.name}</td>
+        <td>${getScoreCell(sibling.punctuality_score)}</td>
+        <td>${getScoreCell(sibling.eating_score)}</td>
+        <td>${getScoreCell(sibling.homework_score)}</td>
+        <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
+    </tr>`;
+                    scorecardBody.append(row);
+                });
+
+                const siblingsDropdown = $('#sibling');
+                scoreData.forEach(sibling => {
+                    const option = `<option value="${sibling.id}">${sibling.name}</option>`;
+                    siblingsDropdown.append(option);
+                });
+
+                const siblings = scoreData.map(sibling => sibling.name);
+                const punctualityScores = scoreData.map(sibling => sibling.punctuality_score);
+                const eatingScores = scoreData.map(sibling => sibling.eating_score);
+                const homeworkScores = scoreData.map(sibling => sibling.homework_score);
+
+                const ctx = document.getElementById('score-graph').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: siblings,
+                        datasets: [
+                            {
+                                label: 'Punctuality',
+                                data: punctualityScores,
+                                backgroundColor: 'rgba(75, 192, 192, 0.6)'
+                            },
+                            {
+                                label: 'Eating',
+                                data: eatingScores,
+                                backgroundColor: 'rgba(255, 99, 132, 0.6)'
+                            },
+                            {
+                                label: 'Homework',
+                                data: homeworkScores,
+                                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true, // This makes the chart responsive to its container
+                        maintainAspectRatio: true,
+                        aspectRatio: 3,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        },
+
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        indexAxis: 'x', // Display data vertically
+                        elements: {
+                            bar: {
+                                barPercentage: 0.1, // Adjust the width of individual bars
+                                categoryPercentage: 0.9 // Adjust the space between bars
+                            }
+                        }
+
+
+
+                    }
+                });
+            });
+
+            $('#update-scores-form').submit(function (event) {
+                event.preventDefault();
+                const siblingId = $('#sibling').val();
+                const punctualityScore = $('#punctuality').val();
+                const eatingScore = $('#eating').val();
+                const homeworkScore = $('#homework').val();
+
+                $.post('./crud/fetchData.php', { siblingId, punctualityScore, eatingScore, homeworkScore }, function (data) {
+                    console.log('Received data:', data);
+                    const response = JSON.parse(data);
+                    alert(response.message);
+                    location.reload();
+                });
+            });
+
+            $('#add-sibling-form').submit(function (event) {
+                event.preventDefault();
+                const siblingName = $('#siblingName').val();
+
+                $.post('./crud/addSsibling.php', { siblingName }, function (data) {
+                    const response = JSON.parse(data);
+                    alert(response.message);
+                    location.reload();
+                });
+            });
+
+            function getScoreCell(score) {
+                let colorClass = '';
+                if (score >= 80) {
+                    colorClass = 'excellent';
+                } else if (score >= 50) {
+                    colorClass = 'fair';
+                } else {
+                    colorClass = 'poor';
+                }
+                return `<span class="${colorClass}">${score}</span>`;
+            }
+        });
+    </script>
+    <style>
+
+        h2{
+            margin: 20px 0;
+
+        }
+
+        .increase {
+            /* background-color: green; */
+            color: green;
+        }
+
+        span.excellent {
+            width: 100%;
+        }
+
+        .excellent {
+            padding: 10px;
+            color: white;
+            background-color: green;
+            border-radius: .3em;
+        }
+
+        .fair {
+            color: black;
+            padding: 10px;
+            background-color: orange;
+            border-radius: .3em;
+        }
+
+        .poor {
+            padding: 10px;
+            color: white;
+            background-color: red;
+            border-radius: .3em;
+
+        }
+
+        .row-btn {
+            /* background-color: red; */
+            /* height: 70px; */
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        td{
+            align-items: center;
+        }
+
+
+
+        button {
+            margin: 20px;
+        }
+    </style>
+</body>
+
+</html>

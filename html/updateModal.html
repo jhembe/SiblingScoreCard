@@ -1,0 +1,33 @@
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Scores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="update-scores-form">
+                    <label for="sibling">Select Sibling: </label>
+                    <select id="sibling" name="sibling">
+                        <!-- Dynamic sibling options will be added here -->
+                    </select>
+                    <br>
+                    <label for="punctuality">Punctuality Score: </label>
+                    <input type="number" id="punctuality" name="punctuality" min="0" max="100" required>
+                    <br>
+                    <label for="eating">Eating Score: </label>
+                    <input type="number" id="eating" name="eating" min="0" max="100" required>
+                    <br>
+                    <label for="homework">Homework Score: </label>
+                    <input type="number" id="homework" name="homework" min="0" max="100" required>
+                    <br>
+                    <button type="submit">Update Scores</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="update-scores-form" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
