@@ -1,0 +1,53 @@
+h2{
+    margin: 20px 0;
+
+}
+
+.increase {
+    /* background-color: green; */
+    color: green;
+}
+
+span.excellent {
+    width: 100%;
+}
+
+.excellent {
+    padding: 10px;
+    color: white;
+    background-color: green;
+    border-radius: .3em;
+}
+
+.fair {
+    color: black;
+    padding: 10px;
+    background-color: orange;
+    border-radius: .3em;
+}
+
+.poor {
+    padding: 10px;
+    color: white;
+    background-color: red;
+    border-radius: .3em;
+
+}
+
+.row-btn {
+    /* background-color: red; */
+    /* height: 70px; */
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+td{
+    align-items: center;
+}
+
+
+
+button {
+    margin: 20px;
+}
