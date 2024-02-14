@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Fetching Required data from the server
     $.get('./crud/fetchData.php', function (data) {
         const scorecardBody = $('#scorecard-body');
         const scoreData = JSON.parse(data);
@@ -13,34 +14,28 @@ $(document).ready(function () {
             }
         }
 
-        // scoreData.forEach(sibling => {
-        //     const previousOverallAvg = parseFloat(sibling.previous_overall_average); // Use the correct field
-        //     const row = `<tr>
-        //         <td>${sibling.name}</td>
-        //         <td>${getScoreCell(sibling.punctuality_score)}</td>
-        //         <td>${getScoreCell(sibling.eating_score)}</td>
-        //         <td>${getScoreCell(sibling.homework_score)}</td>
-        //         <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), previousOverallAvg)}</td>
-        //     </tr>`;
-        //     scorecardBody.append(row);
-        // });
 
         scoreData.forEach(sibling => {
             const row = `<tr>
-<td>${sibling.name}</td>
-<td>${getScoreCell(sibling.punctuality_score)}</td>
-<td>${getScoreCell(sibling.eating_score)}</td>
-<td>${getScoreCell(sibling.homework_score)}</td>
-<td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
-</tr>`;
+                            <td>${sibling.name}</td>
+                            <td>${getScoreCell(sibling.punctuality_score)}</td>
+                            <td>${getScoreCell(sibling.eating_score)}</td>
+                            <td>${getScoreCell(sibling.homework_score)}</td>
+                            <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
+                        </tr>`;
+
             scorecardBody.append(row);
         });
+
+        // Fetching dropdown menu values from database (When Updating)
 
         const siblingsDropdown = $('#sibling');
         scoreData.forEach(sibling => {
             const option = `<option value="${sibling.id}">${sibling.name}</option>`;
             siblingsDropdown.append(option);
         });
+
+        // Done
 
         const siblings = scoreData.map(sibling => sibling.name);
         const punctualityScores = scoreData.map(sibling => sibling.punctuality_score);
@@ -89,7 +84,7 @@ $(document).ready(function () {
                 scales: {
                     x: {
                         grid: {
-                            display: false
+                            display: true
                         }
                     }
                 },
@@ -107,6 +102,9 @@ $(document).ready(function () {
         });
     });
 
+    // Done Fetching data from the server's database
+
+    // Updating Scores to the database
     $('#update-scores-form').submit(function (event) {
         event.preventDefault();
         const siblingId = $('#sibling').val();
@@ -122,6 +120,10 @@ $(document).ready(function () {
         });
     });
 
+    // Done updating scores to the database
+
+
+    // Creating new facilities to the database
     $('#add-sibling-form').submit(function (event) {
         event.preventDefault();
         const siblingName = $('#siblingName').val();
@@ -132,7 +134,10 @@ $(document).ready(function () {
             location.reload();
         });
     });
+    // Done creating facilities to the database
 
+    
+    // Updating colors for CSS
     function getScoreCell(score) {
         let colorClass = '';
         if (score >= 80) {
@@ -144,4 +149,5 @@ $(document).ready(function () {
         }
         return `<span class="${colorClass}">${score}</span>`;
     }
+    // Done updating colors
 });
