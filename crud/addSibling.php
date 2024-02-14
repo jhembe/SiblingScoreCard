@@ -2,16 +2,18 @@
 
     require_once '../Schema/config.php';
 
-    // Handle adding a new sibling
+    // Handle adding a new doctor
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $siblingName = $_POST["siblingName"];
+        $doctorName = $_POST["doctorName"];
+        // $doctorName = 'Kenshi';
 
-        // Insert new sibling name into the database
-        $insertQuery = "INSERT INTO siblings (name) VALUES ('$siblingName')";
+
+        // Insert new doctor's name into the database
+        $insertQuery = "INSERT INTO doctors (name) VALUES ('$doctorName')";
         if ($conn->query($insertQuery) === TRUE) {
-            echo json_encode(array("message" => "Sibling added successfully."));
+            echo json_encode(array("message" => "Doctor added successfully."));
         } else {
-            echo json_encode(array("message" => "Error adding sibling: " . $conn->error));
+            echo json_encode(array("message" => "Error adding Doctor: " . $conn->error));
         }
     }
 

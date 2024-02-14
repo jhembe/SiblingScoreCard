@@ -3,13 +3,13 @@
 
     // Handle updating scores for indicators
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $siblingId = $_POST["siblingId"];
+        $doctorId = $_POST["doctorId"];
         $punctualityScore = $_POST["punctualityScore"];
-        $eatingScore = $_POST["eatingScore"];
-        $homeworkScore = $_POST["homeworkScore"];
+        $revenueScore = $_POST["revenueScore"];
+        $satisfiabilityScore = $_POST["satisfiabilityScore"];
 
         // Get current scores and number of entries
-        $getScoresQuery = "SELECT punctuality_score, eating_score, homework_score, num_entries, overall_average FROM siblings WHERE id = $siblingId";
+        $getScoresQuery = "SELECT punctuality_score, revenue_score, satisfaction_score, num_entries, overall_average FROM doctors WHERE id = $doctorId";
         $scoresResult = $conn->query($getScoresQuery);
 
         if ($scoresResult->num_rows > 0) {
@@ -19,11 +19,11 @@
 
             $previousAverage = $currentNumEntries > 0 ? $scoresData["overall_average"] : 0;
             $newPunctualityScore = ($scoresData["punctuality_score"] * $currentNumEntries + $punctualityScore) / $newNumEntries;
-            $newEatingScore = ($scoresData["eating_score"] * $currentNumEntries + $eatingScore) / $newNumEntries;
-            $newHomeworkScore = ($scoresData["homework_score"] * $currentNumEntries + $homeworkScore) / $newNumEntries;
+            $newRevenueScore = ($scoresData["revenue_score"] * $currentNumEntries + $revenueScore) / $newNumEntries;
+            $newSatisfactionScore = ($scoresData["satisfaction_score"] * $currentNumEntries + $satisfiabilityScore) / $newNumEntries;
 
             // Update scores, previous average, and number of entries
-            $updateQuery = "UPDATE siblings SET punctuality_score = $newPunctualityScore, eating_score = $newEatingScore, homework_score = $newHomeworkScore, previous_average = $previousAverage, overall_average = ($punctualityScore + $eatingScore + $homeworkScore) / 3, num_entries = $newNumEntries WHERE id = $siblingId";
+            $updateQuery = "UPDATE doctors SET punctuality_score = $newPunctualityScore, revenue_score = $newRevenueScore, satisfaction_score = $newSatisfactionScore, previous_average = $previousAverage, overall_average = ($punctualityScore + $revenueScore + $satisfiabilityScore) / 3, num_entries = $newNumEntries WHERE id = $doctorId";
 
             if ($conn->query($updateQuery) === TRUE) {
                 echo json_encode(array("message" => "Scores updated successfully."));
@@ -31,7 +31,7 @@
                 echo json_encode(array("message" => "Error updating scores: " . $conn->error));
             }
         } else {
-            echo json_encode(array("message" => "Sibling not found."));
+            echo json_encode(array("message" => "Doctor not found."));
         }
     }
 

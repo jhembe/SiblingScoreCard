@@ -34,7 +34,7 @@
 
 
     <div class="container">
-        <h2>Sibling ScoreCards</h2>
+        <h2>Doctors Score Cards</h2>
 
         <div class="row row-convas">
             <canvas id="score-graph" class="score-graph"></canvas>
@@ -46,11 +46,11 @@
             </button>
 
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
-                Add Sibling
+                Add Doctor
             </button>
 
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
-                Add Sibling
+                Delete Doctor
             </button>
         </div>
 
@@ -64,25 +64,25 @@
                     </div>
                     <div class="modal-body">
                         <form id="update-scores-form">
-                            <label for="sibling">Select Sibling: </label>
-                            <select id="sibling" name="sibling">
+                            <label for="sibling">Select a Doctor: </label>
+                            <select id="doctor" name="sibling">
                                 <!-- Dynamic siblings options will be added here -->
                             </select>
                             <br>
                             <label for="punctuality">Punctuality Score: </label>
                             <input type="number" id="punctuality" name="punctuality" min="0" max="100" required>
                             <br>
-                            <label for="eating">Eating Score: </label>
-                            <input type="number" id="eating" name="eating" min="0" max="100" required>
+                            <label for="eating">Revenue Generation Score: </label>
+                            <input type="number" id="revenue" name="revenue" min="0" max="100" required>
                             <br>
-                            <label for="homework">Homework Score: </label>
-                            <input type="number" id="homework" name="homework" min="0" max="100" required>
+                            <label for="homework">Satisfiability Score: </label>
+                            <input type="number" id="satisfiability" name="satisfiability" min="0" max="100" required>
                             <br>
-                            <button type="submit">Update Scores</button>
                         </form>
                     </div>
+                    
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Dismiss</button>
                         <button type="submit" form="update-scores-form" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
@@ -94,19 +94,20 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addSiblingModalLabel">Add Sibling</h5>
+                        <h5 class="modal-title" id="addSiblingModalLabel">Add a Doctor</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="add-sibling-form">
-                            <label for="siblingName">Sibling Name: </label>
-                            <input type="text" id="siblingName" name="siblingName" required>
+                        <form id="add-doctor-form">
+                            <label for="siblingName">Doctor's Name: </label>
+                            <input type="text" id="doctorName" name="doctorName" required>
                             <br>
-                            <button type="submit">Add Sibling</button>
+                            <!-- <button type="submit">Add Doctor</button> -->
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Dismiss</button>
+                        <button type="submit" form="add-doctor-form" class="btn btn-primary">Add Doctor</button>
                     </div>
                 </div>
             </div>
@@ -115,11 +116,11 @@
         <table id="scorecard-table" class="table table-bordered table-hover table-responsive-lg table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Sibling Name</th>
+                    <th scope="col">Doctor's Name</th>
                     <th scope="col">Punctuality</th>
-                    <th scope="col">Eating</th>
-                    <th scope="col">Homework</th>
-                    <th scope="col">Overall Average</th>
+                    <th scope="col">Revenue</th>
+                    <th scope="col">Satisfiability</th>
+                    <th scope="col">Overall Performance</th>
                 </tr>
             </thead>
             <tbody id="scorecard-body">

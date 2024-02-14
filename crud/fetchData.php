@@ -2,16 +2,16 @@
     require_once '../Schema/config.php';
 
     // Fetch sibling data
-    $query = "SELECT * FROM siblings";
+    $query = "SELECT * FROM doctors";
     $result = $conn->query($query);
 
-    $siblings = array();
+    $doctors = array();
     while ($row = $result->fetch_assoc()) {
-        $siblings[] = $row;
+        $doctors[] = $row;
     }
 
-    // Return fetched sibling data as JSON
-    echo json_encode($siblings);
+    // Return fetched doctors data as JSON array
+    echo json_encode($doctors);
 
     $conn->close();
 ?>

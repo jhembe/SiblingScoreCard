@@ -15,13 +15,13 @@ $(document).ready(function () {
         }
 
 
-        scoreData.forEach(sibling => {
+        scoreData.forEach(doctor => {
             const row = `<tr>
-                            <td>${sibling.name}</td>
-                            <td>${getScoreCell(sibling.punctuality_score)}</td>
-                            <td>${getScoreCell(sibling.eating_score)}</td>
-                            <td>${getScoreCell(sibling.homework_score)}</td>
-                            <td>${getScoreCell(sibling.overall_average)} ${getArrowIndicator(parseFloat(sibling.overall_average), parseFloat(sibling.previous_average))}</td>
+                            <td>${doctor.name}</td>
+                            <td>${getScoreCell(doctor.punctuality_score)}</td>
+                            <td>${getScoreCell(doctor.revenue_score)}</td>
+                            <td>${getScoreCell(doctor.satisfaction_score)}</td>
+                            <td>${getScoreCell(doctor.overall_average)} ${getArrowIndicator(parseFloat(doctor.overall_average), parseFloat(doctor.previous_average))}</td>
                         </tr>`;
 
             scorecardBody.append(row);
@@ -29,24 +29,24 @@ $(document).ready(function () {
 
         // Fetching dropdown menu values from database (When Updating)
 
-        const siblingsDropdown = $('#sibling');
+        const doctorsDropdown = $('#doctor');
         scoreData.forEach(sibling => {
             const option = `<option value="${sibling.id}">${sibling.name}</option>`;
-            siblingsDropdown.append(option);
+            doctorsDropdown.append(option);
         });
 
         // Done
 
-        const siblings = scoreData.map(sibling => sibling.name);
-        const punctualityScores = scoreData.map(sibling => sibling.punctuality_score);
-        const eatingScores = scoreData.map(sibling => sibling.eating_score);
-        const homeworkScores = scoreData.map(sibling => sibling.homework_score);
+        const doctors = scoreData.map(doctor => doctor.name);
+        const punctualityScores = scoreData.map(doctor => doctor.punctuality_score);
+        const revenueScores = scoreData.map(doctor => doctor.revenue_score);
+        const satisfactionScores = scoreData.map(doctor => doctor.satisfaction_score);
 
         const ctx = document.getElementById('score-graph').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: siblings,
+                labels: doctors,
                 datasets: [
                     {
                         label: 'Punctuality',
@@ -54,13 +54,13 @@ $(document).ready(function () {
                         backgroundColor: 'rgba(75, 192, 192, 0.6)'
                     },
                     {
-                        label: 'Eating',
-                        data: eatingScores,
+                        label: 'Revenue',
+                        data: revenueScores,
                         backgroundColor: 'rgba(255, 99, 132, 0.6)'
                     },
                     {
-                        label: 'Homework',
-                        data: homeworkScores,
+                        label: 'Satisfiability',
+                        data: satisfactionScores,
                         backgroundColor: 'rgba(54, 162, 235, 0.6)'
                     }
                 ]
@@ -104,15 +104,18 @@ $(document).ready(function () {
 
     // Done Fetching data from the server's database
 
+
+
+
     // Updating Scores to the database
     $('#update-scores-form').submit(function (event) {
         event.preventDefault();
-        const siblingId = $('#sibling').val();
+        const doctorId = $('#doctor').val();
         const punctualityScore = $('#punctuality').val();
-        const eatingScore = $('#eating').val();
-        const homeworkScore = $('#homework').val();
+        const revenueScore = $('#revenue').val();
+        const satisfiabilityScore = $('#satisfiability').val();
 
-        $.post('./crud/updateScores.php', { siblingId, punctualityScore, eatingScore, homeworkScore }, function (data) {
+        $.post('./crud/updateScores.php', { doctorId, punctualityScore, revenueScore, satisfiabilityScore }, function (data) {
             console.log('Received data:', data);
             const response = JSON.parse(data);
             alert(response.message);
@@ -124,11 +127,11 @@ $(document).ready(function () {
 
 
     // Creating new facilities to the database
-    $('#add-sibling-form').submit(function (event) {
+    $('#add-doctor-form').submit(function (event) {
         event.preventDefault();
-        const siblingName = $('#siblingName').val();
+        const doctorName = $('#doctorName').val();
 
-        $.post('./crud/addSibling.php', { siblingName }, function (data) {
+        $.post('./crud/addSibling.php', { doctorName }, function (data) {
             const response = JSON.parse(data);
             alert(response.message);
             location.reload();
