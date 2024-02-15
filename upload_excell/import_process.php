@@ -25,18 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $worksheet = $excelObj->getActiveSheet();
 
         // Prepare a statement for insertion
-        $insertQuery = $conn->prepare("INSERT INTO siblings (name, punctuality_score, eating_score, homework_score) VALUES (?, ?, ?, ?)");
+        $insertQuery = $conn->prepare("INSERT INTO doctors (name, punctuality_score, revenue_score, satisfaction_score) VALUES (?, ?, ?, ?)");
 
         // Loop through the rows and insert data into the database
         $highestRow = $worksheet->getHighestRow();
         for ($row = 2; $row <= $highestRow; $row++) {
             $name = $worksheet->getCell('A' . $row)->getValue();
             $punctualityScore = $worksheet->getCell('B' . $row)->getValue();
-            $eatingScore = $worksheet->getCell('C' . $row)->getValue();
-            $homeworkScore = $worksheet->getCell('D' . $row)->getValue();
+            $revenueScore = $worksheet->getCell('C' . $row)->getValue();
+            $satisfaction = $worksheet->getCell('D' . $row)->getValue();
 
             // Bind parameters and execute the statement
-            $insertQuery->bind_param("sddd", $name, $punctualityScore, $eatingScore, $homeworkScore);
+            $insertQuery->bind_param("sddd", $name, $punctualityScore, $revenueScore, $satisfaction);
             if ($insertQuery->execute()) {
                 // Data inserted successfully
             } else {

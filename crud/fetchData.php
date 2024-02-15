@@ -1,7 +1,7 @@
 <?php
     require_once '../Schema/config.php';
 
-    // Fetch sibling data
+    // Fetch Doctors data
     $query = "SELECT * FROM doctors";
     $result = $conn->query($query);
 

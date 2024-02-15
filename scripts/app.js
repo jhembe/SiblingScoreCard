@@ -29,9 +29,15 @@ $(document).ready(function () {
 
         // Fetching dropdown menu values from database (When Updating)
 
-        const doctorsDropdown = $('#doctor');
-        scoreData.forEach(sibling => {
-            const option = `<option value="${sibling.id}">${sibling.name}</option>`;
+        const doctorsUpdateDropdown = $('#doctor');
+        scoreData.forEach(doctor => {
+            const option = `<option value="${doctor.id}">${doctor.name}</option>`;
+            doctorsUpdateDropdown.append(option);
+        });
+
+        const doctorsDropdown = $('#Idoctor');
+        scoreData.forEach(doctor => {
+            const option = `<option value="${doctor.id}">${doctor.name}</option>`;
             doctorsDropdown.append(option);
         });
 
@@ -131,13 +137,31 @@ $(document).ready(function () {
         event.preventDefault();
         const doctorName = $('#doctorName').val();
 
-        $.post('./crud/addSibling.php', { doctorName }, function (data) {
+        $.post('./crud/addDoctor.php', { doctorName }, function (data) {
+            const response = JSON.parse(data);
+            alert(response.message);
+            // location.reload();
+            // $('#add-doctor-form').
+        });
+        location.reload();
+    });
+    // Done creating facilities to the database
+
+
+    // Deleting a doctor Scores to the database
+    $('#delete-doctor-form').submit(function (event) {
+        event.preventDefault();
+        const doctorId = $('#Idoctor').val();
+
+        $.post('./crud/deleteDoctor.php', {doctorId}, function (data) {
+            console.log('Received data:', data);
             const response = JSON.parse(data);
             alert(response.message);
             location.reload();
         });
     });
-    // Done creating facilities to the database
+
+    // Done updating scores to the database
 
     
     // Updating colors for CSS

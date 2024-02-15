@@ -45,11 +45,11 @@
                 Update Scores
             </button>
 
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
                 Add Doctor
             </button>
 
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addSiblingModal">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 Delete Doctor
             </button>
         </div>
@@ -60,46 +60,46 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="updateModalLabel">Update Scores</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">x</button>
                     </div>
                     <div class="modal-body">
                         <form id="update-scores-form">
-                            <label for="sibling">Select a Doctor: </label>
-                            <select id="doctor" name="sibling">
-                                <!-- Dynamic siblings options will be added here -->
+                            <label for="doctor">Select a Doctor: </label>
+                            <select id="doctor" name="doctor" class="custom-select">
+                                <!-- Dynamic doctors options will be added here -->
                             </select>
-                            <br>
-                            <label for="punctuality">Punctuality Score: </label>
+                            <br><br>
+                            <label for="punctuality">Punctuality Score: </label><br>
                             <input type="number" id="punctuality" name="punctuality" min="0" max="100" required>
                             <br>
-                            <label for="eating">Revenue Generation Score: </label>
+                            <label for="eating">Revenue Generation Score: </label><br>
                             <input type="number" id="revenue" name="revenue" min="0" max="100" required>
                             <br>
-                            <label for="homework">Satisfiability Score: </label>
+                            <label for="homework">Satisfiability Score: </label><br>
                             <input type="number" id="satisfiability" name="satisfiability" min="0" max="100" required>
                             <br>
                         </form>
                     </div>
                     
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Dismiss</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Dismiss</button>
                         <button type="submit" form="update-scores-form" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="addSiblingModal" tabindex="-1" aria-labelledby="addSiblingModalLabel"
+        <div class="modal fade" id="addDoctorModal" tabindex="-1" aria-labelledby="addDoctorModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addSiblingModalLabel">Add a Doctor</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="addDoctorModalLabel">Add a Doctor</h5>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">x</button>
                     </div>
                     <div class="modal-body">
                         <form id="add-doctor-form">
-                            <label for="siblingName">Doctor's Name: </label>
+                            <label for="doctorName">Doctor's Name: </label>
                             <input type="text" id="doctorName" name="doctorName" required>
                             <br>
                             <!-- <button type="submit">Add Doctor</button> -->
@@ -113,6 +113,31 @@
             </div>
         </div>
 
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Delete Doctor</h5>
+                        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" aria-label="Close">x</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="delete-doctor-form">
+                            <label for="Idoctor">Select a Doctor: </label>
+                            <select id="Idoctor" name="doctor" class="custom-select">
+                                <!-- Dynamic Doctor names options will be added here -->
+                            </select>
+                        </form>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Dismiss</button>
+                        <button type="submit" form="delete-doctor-form" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <table id="scorecard-table" class="table table-bordered table-hover table-responsive-lg table-striped">
             <thead>
                 <tr>
@@ -124,7 +149,7 @@
                 </tr>
             </thead>
             <tbody id="scorecard-body">
-                <!-- Sibling score rows will be dynamically added here -->
+                <!-- Doctor score rows will be dynamically added here -->
             </tbody>
         </table>
 

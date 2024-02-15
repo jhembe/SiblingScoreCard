@@ -26,7 +26,7 @@ USE scoreCardTest;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `siblings`
+-- Table structure for table `Doctors`
 --
 
 CREATE TABLE `doctors` (
@@ -45,7 +45,7 @@ CREATE TABLE `doctors` (
 --
 
 --
--- Indexes for table `siblings`
+-- Indexes for table `Doctors`
 --
 ALTER TABLE `doctors`
   ADD PRIMARY KEY (`id`);
@@ -55,7 +55,7 @@ ALTER TABLE `doctors`
 --
 
 --
--- AUTO_INCREMENT for table `siblings`
+-- AUTO_INCREMENT for table `Doctors`
 --
 ALTER TABLE `doctors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
